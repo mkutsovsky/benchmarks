@@ -70,5 +70,5 @@ def main(positional_arguments):
 
 
 if __name__ == '__main__':
-  get_tf_config()
+  #get_tf_config()
   app.run(main)  # Raises error on invalid flags, unlike tf.app.run()
