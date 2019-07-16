@@ -608,7 +608,7 @@ flags.DEFINE_integer('allreduce_merge_scope', 1,
                      'parallel ops.')
 
 # Distributed training parameters.
-flags.DEFINE_enum('job_name', ob_name(), ('ps', 'worker', 'controller', ''),
+flags.DEFINE_enum('job_name', job_name(), ('ps', 'worker', 'controller', ''),
                   'One of "ps", "worker", "controller", "".  Empty for local '
                   'training')
 flags.DEFINE_string('ps_hosts', ps_hosts(), 'Comma-separated list of target hosts')
