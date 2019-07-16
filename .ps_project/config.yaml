@@ -5,3 +5,17 @@ worker:
   container: "tensorflow/tensorflow:latest-gpu"
   command: "pip install gradient-sdk && python scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --num_gpus=1 --model=resnet50 --variable_update=replicated --data_format=NCHW --batch_size=32 --optimizer=momentum"
   machine-type: "V100"
+
+model:
+  type: Tensorflow
+  path: '/artifacts'
+  
+checks:
+  tensorflow:loss:
+    target: 0.0..1.0
+    aggregate: max
+  tensorflow:accuracy:
+    target: 0.988..1.000
+    aggregate: median
+  defaults:
+    precision: 3

@@ -651,7 +651,7 @@ flags.DEFINE_integer('max_ckpts_to_keep', 5,
 flags.DEFINE_string('train_dir', model_dir(),
                     'Path to session checkpoints. Pass None to disable saving '
                     'checkpoint at the end.')
-flags.DEFINE_string('eval_dir', /artifacts/,
+flags.DEFINE_string('eval_dir', '/artifacts/',
                     'Directory where to write eval event logs.')
 flags.DEFINE_string('backbone_model_path', None,
                     'Path to pretrained backbone model checkpoint. Pass None '
