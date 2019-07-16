@@ -59,6 +59,7 @@ from tensorflow.python.framework import importer
 from tensorflow.python.ops import data_flow_ops
 from tensorflow.python.platform import gfile
 from tensorflow.python.util import nest
+import * from gradient_sdk 
 
 
 _DEFAULT_NUM_BATCHES = 100
@@ -607,13 +608,13 @@ flags.DEFINE_integer('allreduce_merge_scope', 1,
                      'parallel ops.')
 
 # Distributed training parameters.
-flags.DEFINE_enum('job_name', '', ('ps', 'worker', 'controller', ''),
+flags.DEFINE_enum('job_name', ob_name(), ('ps', 'worker', 'controller', ''),
                   'One of "ps", "worker", "controller", "".  Empty for local '
                   'training')
-flags.DEFINE_string('ps_hosts', '', 'Comma-separated list of target hosts')
-flags.DEFINE_string('worker_hosts', '', 'Comma-separated list of target hosts')
+flags.DEFINE_string('ps_hosts', ps_hosts(), 'Comma-separated list of target hosts')
+flags.DEFINE_string('worker_hosts', worker_hosts(), 'Comma-separated list of target hosts')
 flags.DEFINE_string('controller_host', None, 'optional controller host')
-flags.DEFINE_integer('task_index', 0, 'Index of task within the job')
+flags.DEFINE_integer('task_index', task_index(), 'Index of task within the job')
 flags.DEFINE_string('server_protocol', 'grpc', 'protocol for servers')
 flags.DEFINE_boolean('cross_replica_sync', True, '')
 flags.DEFINE_string('horovod_device', '', 'Device to do Horovod all-reduce on: '
@@ -643,10 +644,10 @@ flags.DEFINE_integer('save_model_steps', None,
                      'save_model_secs must not be specified.')
 flags.DEFINE_integer('max_ckpts_to_keep', 5,
                      'Max number of checkpoints to keep.')
-flags.DEFINE_string('train_dir', None,
+flags.DEFINE_string('train_dir', model_dir(),
                     'Path to session checkpoints. Pass None to disable saving '
                     'checkpoint at the end.')
-flags.DEFINE_string('eval_dir', '/tmp/tf_cnn_benchmarks/eval',
+flags.DEFINE_string('eval_dir', export_dir(),
                     'Directory where to write eval event logs.')
 flags.DEFINE_string('backbone_model_path', None,
                     'Path to pretrained backbone model checkpoint. Pass None '

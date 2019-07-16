@@ -1,0 +1,7 @@
+version: 1
+
+type: "single"
+worker:
+  container: "tensorflow-1.8.0-gpu-py36-cuda9.2"
+  command: "python3 scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --num_gpus=1 --model=resnet50 --variable_update=replicated --data_format=NCHW --batch_size=32 --optimizer=momentum"
+  machine-type: "V100"

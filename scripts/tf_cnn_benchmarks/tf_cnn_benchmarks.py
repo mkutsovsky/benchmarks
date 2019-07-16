@@ -31,6 +31,7 @@ import cnn_util
 import flags
 import mlperf
 from cnn_util import log_fn
+from gradient_sdk import get_tf_config
 
 
 flags.define_flags()
@@ -69,4 +70,5 @@ def main(positional_arguments):
 
 
 if __name__ == '__main__':
+  get_tf_config()
   app.run(main)  # Raises error on invalid flags, unlike tf.app.run()
