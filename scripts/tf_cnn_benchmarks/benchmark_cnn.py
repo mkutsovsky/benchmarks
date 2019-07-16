@@ -59,7 +59,7 @@ from tensorflow.python.framework import importer
 from tensorflow.python.ops import data_flow_ops
 from tensorflow.python.platform import gfile
 from tensorflow.python.util import nest
-import * from gradient_sdk 
+from gradient_sdk.util import *
 
 
 _DEFAULT_NUM_BATCHES = 100
