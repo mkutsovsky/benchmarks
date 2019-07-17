@@ -32,7 +32,7 @@ import flags
 import mlperf
 from cnn_util import log_fn
 from gradient_sdk import get_tf_config
-
+import os
 
 flags.define_flags()
 for name in flags.param_specs.keys():
@@ -57,6 +57,10 @@ def main(positional_arguments):
                      % positional_arguments[1:])
 
   params = benchmark_cnn.make_params_from_flags()
+  # Print ENV Variables
+    tf.logging.debug('=' * 20 + ' Environment Variables ' + '=' * 20)
+    for k, v in os.environ.items():
+        tf.logging.debug('{}: {}'.format(k, v))
   with mlperf.mlperf_logger(absl_flags.FLAGS.ml_perf_compliance_logging,
                             params.model):
     params = benchmark_cnn.setup(params)
