@@ -608,10 +608,10 @@ flags.DEFINE_integer('allreduce_merge_scope', 1,
                      'parallel ops.')
 
 # Distributed training parameters.
-# job_name = job_name()
-# if job_name == 'master':
-#     job_name = 'worker'
-flags.DEFINE_enum('job_name', job_name(), ('ps', 'worker', 'controller', ''),
+job_name = job_name()
+if job_name == 'master':
+    job_name = 'worker'
+flags.DEFINE_enum('job_name', job_name, ('ps', 'worker', 'controller', ''),
                   'One of "ps", "worker", "controller", "".  Empty for local '
                   'training')
 flags.DEFINE_string('ps_hosts', ps_hosts(), 'Comma-separated list of target hosts')
@@ -653,7 +653,7 @@ flags.DEFINE_integer('max_ckpts_to_keep', 5,
 flags.DEFINE_string('train_dir', model_dir(),
                     'Path to session checkpoints. Pass None to disable saving '
                     'checkpoint at the end.')
-flags.DEFINE_string('eval_dir', export_dir(),
+flags.DEFINE_string('eval_dir', eval_dir(),
                     'Directory where to write eval event logs.')
 flags.DEFINE_string('backbone_model_path', None,
                     'Path to pretrained backbone model checkpoint. Pass None '
