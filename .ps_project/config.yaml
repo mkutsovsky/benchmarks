@@ -1,15 +1,23 @@
-version: 1
 
-type: "single"
+version: 1
+type: "multi-grpc"
+ports: "5000"
+parameter-server:
+  container: "tensorflow/tensorflow:latest-gpu"
+  command: "pip install gradient-sdk && python3 scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --num_gpus=2 --model=resnet50 --variable_update=distributed_replicated --data_format=NCHW --batch_size=32 --optimizer=momentum --nodistortions --gradient_repacking=8 --use_fp16 --local_parameter_device=gpu"
+  machine-type: "V100"
+  count: 1
 worker:
   container: "tensorflow/tensorflow:latest-gpu"
-  command: "pip install gradient-sdk && python scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --num_gpus=1 --model=resnet50 --variable_update=replicated --data_format=NCHW --batch_size=32 --optimizer=momentum"
+  command: "pip install gradient-sdk && python3 scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --num_gpus=2 --model=resnet50 --variable_update=distributed_replicated --data_format=NCHW --batch_size=32 --optimizer=momentum --nodistortions --gradient_repacking=8 --use_fp16 --local_parameter_device=gpu"
   machine-type: "V100"
+  count: 4
+
 
 model:
   type: Tensorflow
   path: '/artifacts'
-  
+
 checks:
   tensorflow:loss:
     target: 0.0..1.0
