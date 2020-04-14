@@ -59,8 +59,6 @@ from tensorflow.python.framework import importer
 from tensorflow.python.ops import data_flow_ops
 from tensorflow.python.platform import gfile
 from tensorflow.python.util import nest
-from gradient_sdk import *
-
 
 _DEFAULT_NUM_BATCHES = 100
 
@@ -608,24 +606,22 @@ flags.DEFINE_integer('allreduce_merge_scope', 1,
                      'parallel ops.')
 
 # Distributed training parameters.
-job_name = job_name()
+job_name = os.environ.get('TYPE', '')
+# change master to worker
 if job_name == 'master':
     job_name = 'worker'
+
+task_index = os.environ.get('INDEX', '')
+ps_hosts = os.environ.get('PS_HOSTS', '').replace('[', '').replace(']', '').replace(' ', ',')
+worker_hosts = os.environ.get('WORKER_HOSTS', '').replace('[', '').replace(']', '').replace(' ', ',')
+# Distributed training parameters.
 flags.DEFINE_enum('job_name', job_name, ('ps', 'worker', 'controller', ''),
                   'One of "ps", "worker", "controller", "".  Empty for local '
                   'training')
-flags.DEFINE_string('ps_hosts', ps_hosts(), 'Comma-separated list of target hosts')
-#flags.DEFINE_string('worker_hosts', '', 'Comma-separated list of target hosts')
-
-flags.DEFINE_string('worker_hosts', worker_hosts(), 'Comma-separated list of target hosts')
+flags.DEFINE_string('ps_hosts', ps_hosts, 'Comma-separated list of target hosts')
+flags.DEFINE_string('worker_hosts', worker_hosts, 'Comma-separated list of target hosts')
 flags.DEFINE_string('controller_host', None, 'optional controller host')
-flags.DEFINE_integer('task_index', task_index(), 'Index of task within the job')
-flags.DEFINE_string('server_protocol', 'grpc', 'protocol for servers')
-flags.DEFINE_boolean('cross_replica_sync', True, '')
-flags.DEFINE_string('horovod_device', '', 'Device to do Horovod all-reduce on: '
-                    'empty (default), cpu or gpu. Default with utilize GPU if '
-                    'Horovod was compiled with the HOROVOD_GPU_ALLREDUCE '
-                    'option, and CPU otherwise.')
+flags.DEFINE_integer('task_index', task_index, 'Index of task within the job')
 
 
 # Summary and Save & load checkpoints.
