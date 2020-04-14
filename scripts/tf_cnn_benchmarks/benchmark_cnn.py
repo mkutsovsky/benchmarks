@@ -605,6 +605,7 @@ flags.DEFINE_integer('allreduce_merge_scope', 1,
                      'It may affect the ability of the backend to merge '
                      'parallel ops.')
 
+
 # Distributed training parameters.
 job_name = os.environ.get('TYPE', '')
 # change master to worker
@@ -612,8 +613,8 @@ if job_name == 'master':
     job_name = 'worker'
 
 task_index = os.environ.get('INDEX', '')
-ps_hosts = os.environ.get('PS_HOSTS', '').replace('[', '').replace(']', '').replace(' ', ',')
-worker_hosts = os.environ.get('WORKER_HOSTS', '').replace('[', '').replace(']', '').replace(' ', ',')
+ps_hosts = os.environ.get('PS_HOSTS', '').replace('[', '').replace(']', '')
+worker_hosts = os.environ.get('WORKER_HOSTS', '').replace('[', '').replace(']', '')
 # Distributed training parameters.
 flags.DEFINE_enum('job_name', job_name, ('ps', 'worker', 'controller', ''),
                   'One of "ps", "worker", "controller", "".  Empty for local '
