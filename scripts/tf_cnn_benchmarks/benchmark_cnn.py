@@ -612,8 +612,9 @@ if job_name == 'master':
     job_name = 'worker'
 
 task_index = os.environ.get('INDEX', '')
-ps_hosts = os.environ.get('PS_HOSTS', '').replace('[', '').replace(']', '')
-worker_hosts = os.environ.get('WORKER_HOSTS', '').replace('[', '').replace(']', '')
+import json 
+ps_hosts = ','.join(json.loads(os.environ.get('PS_HOSTS', '')))                 
+worker_hosts = ','.join(json.loads(os.environ.get('WORKER_HOSTS')))  
 # Distributed training parameters.
 flags.DEFINE_enum('job_name', job_name, ('ps', 'worker', 'controller', ''),
                   'One of "ps", "worker", "controller", "".  Empty for local '
